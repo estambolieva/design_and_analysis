@@ -1,19 +1,26 @@
+#count the number of inversions a mergeSort needs to perform
+# left inversion: if i,j < n/2
+# right inversion: if i, j >= n/2
+# split inversion: if i< n/2 <= j
 import math
 
 def mergeSort(a):
+    no_inversions = 0
     #divide
     start = 0
     end = len(a)
     middle = int(math.ceil(end/float(2)))
     if(len(a) > 1):
-        b = mergeSort(a[start:middle])
-        c = mergeSort(a[middle:end])
+        b, part_inv_count1 = mergeSort(a[start:middle])
+        c, part_inv_count2 = mergeSort(a[middle:end])
+        no_inversions += part_inv_count1
+        no_inversions += part_inv_count2
     else:
-        return a
+        return a, no_inversions
 
     #conquer - e.g. merge
     merged = [0]*(len(b) + len(c))
-    print "b and c are:" + str(b) + " and " + str(c)
+    jump = 0
     k = 0
     i = 0
     j = 0
@@ -29,12 +36,21 @@ def mergeSort(a):
         if(b[i]>c[j]):
             merged[k] = c[j]
             k += 1
+            #count inversions
+            tmp_inversions = no_inversions
+            no_inversions += (len(b) - i)
+
             if (j+1 == len(c)):
                 merged[k:] = b[i:]
                 k = len(merged)
             else:
                 j+=1
-    return merged
+    return merged, no_inversions
 
-a = [6,5,4,1,4,8,7,2,6,3,5]
-print "final sorted array is - " + str(mergeSort(a))
+fname = "unsorted_array.txt"
+with open(fname) as f:
+    content = f.readlines()
+    content = map(int, content)
+sorted_array, no_inversions = mergeSort(content)
+print "final sorted array is - " + str(sorted_array)
+print "total number of inversions -> " + str(no_inversions)
