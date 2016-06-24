@@ -1,12 +1,22 @@
 no_comparisons = 0
 
+def choose_pivot(first, middle, last):
+    list = [first, middle, last]
+    list.sort()
+    median = list[1]
+    return median
+
 def quickSort(a,start, end):
     global no_comparisons, first_pass
     # base case
     if ((end - start) == 1):
         return a
-    # select pivot - pivot is the first element of the array
-    pivot_ind = end -1
+    first = a[start]
+    last = a[end-1]
+    middle_ind = start + int(((end-1-start)/2))
+    middle = a[middle_ind]
+    median = choose_pivot(first, middle, last)
+    pivot_ind = a.index(median)
     pivot = a[pivot_ind]
     # swap pivot and the first element of the array
     a[pivot_ind] = a[start]
@@ -36,12 +46,13 @@ def quickSort(a,start, end):
         no_comparisons += (end - i - 1)
         quickSort(a, i, end)
 
-fname = "C:\\Users\\estam_000\\Downloads\\quick_sorted_array.txt"
+fname = "quick_sorted_array.txt"
 with open(fname) as f:
     content = f.readlines()
     content = map(int, content)
 #content = [10, 1, 8, 2, 7, 3, 6, 4, 5, 20, 12]
-#content = [5,4,3,2,1]
+#content = [3,8,2,5,1,4,7,6]
+#content = [8,2,4,5,7,1]
 n = len(content)
 quickSort(content, 0, n)
 no_comparisons += (n - 1)
