@@ -9,31 +9,31 @@ def quickSort(a,start, end):
     pivot_ind = end - 1
     pivot = a[pivot_ind]
     # partition around pivot
-    i = end - 2
-    for j in range(end-2, start-1,-1):
+    i = start
+    for j in range(start, end):
         #check is there is a swap
-        if (a[j] > pivot):
-            #print "the pivot is bigger than " + str(a[j])
+        if (a[j] < pivot):
             # swap
             if (i != j):
                 temp = a[j]
                 a[j] = a[i]
                 a[i] = temp
             # advance indices
-            i = i-1
+            i = i+1
     # put pivot in rightful position
-    temp_pivot = a[i+1]
-    a[i+1] = a[pivot_ind]
+    temp_pivot = a[i]
+    a[i] = a[pivot_ind]
     a[pivot_ind] = temp_pivot
     # recursive calls
-    if ((i + 1 - start) >= 1):
-        no_comparisons += (i - start)
-        quickSort(a, start, i + 1)
-    if (end - i - 2>= 1):
-        no_comparisons += (end - i - 3)
-        quickSort(a, i + 2, end)
+    if ((i - start) >= 1):
+        no_comparisons += (i - start - 1)
+        quickSort(a, start, i)
+    if (end - i - 1>= 1):
 
-fname = "quick_sorted_array.txt"
+        no_comparisons += (end - i - 2)
+        quickSort(a, i + 1, end)
+
+fname = "C:\\Users\\estam_000\\Downloads\\quick_sorted_array.txt"
 with open(fname) as f:
     content = f.readlines()
     content = map(int, content)
