@@ -21,8 +21,9 @@
    a. 1st commit - randomized rSelect. Gets the i-th order statistics of an unosrted array
 
 4. week4: bfs.py
-   a. 1st commit - breadth-first search implemented. This implementation asks for a list of nodes and a list of edges. JPG with the two exaples tested with in ./week4/examples
-   b. 2nd commit - bfs for shortest path for anundirected and weightless graph
+   a. 1st commit - breadth-first search implemented - find all findable nodes from a starting node 's'. This implementation asks for a list of nodes and a list of edges. JPG with the two exaples tested with in ./week4/examples
+   b. 2nd commit - bfs for shortest path for an undirected and weightless graph
 
    bfs_path.py
-   a. 1st commit - bfs implemented. This implementation asks for an adjecancy list representation of the graph. It tracks the path from s to a desired node in the graph. added example 3 JPG
+   a. 1st commit - bfs implemented - find shortest path from 'start' to 'end'. This implementation asks for an adjecancy list representation of the graph. It tracks the path from s to a desired node in the graph. added example 3 JPG
+   b. 2nd commit - find all paths from node 'start' to node 'end' in the graph G.
