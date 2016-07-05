@@ -19,3 +19,6 @@
 
 3. week3: rSelect_randomized.py
    a. 1st commit - randomized rSelect. Gets the i-th order statistics of an unosrted array
+
+4. week4: bfs.py
+   a. 1st commit - breadth-first search implemented. JPG with the two exaples tested with in ./week4/examples
