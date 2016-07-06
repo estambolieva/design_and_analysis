@@ -27,3 +27,6 @@
    bfs_path.py
    a. 1st commit - bfs implemented - find shortest path from 'start' to 'end'. This implementation asks for an adjecancy list representation of the graph. It tracks the path from s to a desired node in the graph. added example 3 JPG
    b. 2nd commit - find all paths from node 'start' to node 'end' in the graph G.
+
+   dfs.py
+   a. 1st commit - recursive dfs implemented - find all findable nodes from a start node s in a graph.
