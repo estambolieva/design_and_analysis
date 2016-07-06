@@ -53,7 +53,7 @@ graph = {
 #    '7': ['11', '12']
 #}
 
-# example 4
+# example 4 - list of adjacent elements representation. See ./week4/examples/example_4.jpg
 graph = {
     's': ['w', 'v'],
     'w': ['t'],
@@ -63,7 +63,7 @@ graph = {
     'i': ['l']
 }
 
-# example 5
+# example 5 - list of adjacent elements representation. See ./week4/examples/example_5.jpg
 graph = {
     'i': ['j', 'k'],
     'a': ['c'],
