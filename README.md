@@ -30,3 +30,4 @@
 
    dfs.py
    a. 1st commit - recursive dfs implemented - find all findable nodes from a start node s in a graph.
+   b. 2nd commit - recursive dfs implemented - topological sort
