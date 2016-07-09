@@ -1,3 +1,8 @@
+import sys
+import pdb
+
+sys.setrecursionlimit(2000)
+
 times = []
 time = 0
 s = 0
@@ -7,14 +12,14 @@ leaders = []
 scc_len = []
 curr_scc = []
 
-def scc(graph):
+def scc(graph, graph_rev):
     global s, num_nodes, nodes, explored, curr_scc
     # 1.reverse graph
     # 2.run DFS-loop on reversed graph: get graph timings and leaders
     for i in range(num_nodes, 0, -1):
         if i not in explored:
             s = i
-            dfs_rev(graph, i)
+            dfs_rev(graph_rev, i)
     # 3.run DFS-loop on normal graph with nodes the running time of each node
     # e.g. iterate over the nodes in reverse order of their timing
     # 3.1. update order of nodes according to timing
@@ -34,16 +39,15 @@ def scc(graph):
             scc_len.append(len(curr_scc))
             curr_scc = []
 
-def dfs_rev(graph, i):
+def dfs_rev(graph_rev, i):
     global s, leaders, time, times
     explored.append(i)
     leaders[i-1] = s
-    for edge in graph:
-        u = edge[0]
-        v = edge[1]
-        if v == i:
-            if u not in explored:
-                dfs_rev(graph, u)
+    # for each arc (i, head_node)
+    if i in graph_rev:
+        for head_node in graph_rev.get(i):
+            if head_node not in explored:
+                dfs_rev(graph_rev, head_node)
     time += 1
     times[i-1] = time
 
@@ -51,35 +55,55 @@ def dfs(graph, node):
     global explored, curr_scc
     explored.append(node)
     curr_scc.append(node)
-    for edge in graph:
-        u = edge[0]
-        v = edge[1]
-        if u == node:
-            if v not in explored:
-                dfs(graph, v)
+    # for arc (node, head_node)
+    if node in graph:
+        for head_node in graph.get(node):
+            if head_node not in explored:
+                dfs(graph, head_node)
 
-def get_nodes_l(graph):
-    nodes = []
-    for k in graph:
-        for i in k:
-            if i not in nodes:
-                nodes.append(i)
-    return nodes
+graph = []
+fname = "C:\\Users\\estam_000\\Downloads\\scc_graph.txt"
+cnt = 0
 
-# scc example 6 - list of adjacent elements representation. See ./week4/examples/scc_example_6.jpg
-graph = [[1,4],[4,7],[7,1],[9,7],[9,3],[3,6],[6,9],[8,6],[8,5],[5,2],[2,8]]
-
-# scc example 7 - list of adjacent elements representation. See ./week4/examples/scc_example_7.jpg
-graph = [[1,2],[2,3],[3,1],[2,4],[4,9],[4,10],[9,10],
-         [10,11],[11,9],[3,5],[3,6],[5,6],[6,7],[6,8],[7,8],[8,5],[6,9],[7,11]]
+nodes = set()
+graph = {}
+graph_rev = {}
+with open(fname) as f:
+    for line in f:
+        cnt += 1
+        edge_nodes = line.split()
+        tail_node = int(edge_nodes[0])
+        head_node = int(edge_nodes[1])
+        # add this edge to graph
+        if tail_node not in graph:
+            graph[tail_node] = [head_node]
+        else:
+            other_edges = graph[tail_node]
+            other_edges.append(head_node)
+            graph[tail_node] = other_edges
+        # add reverse edge to reverse graph
+        if head_node not in graph_rev:
+            graph_rev[head_node] = [tail_node]
+        else:
+            other_rev_edges = graph_rev[head_node]
+            other_rev_edges.append(tail_node)
+            graph_rev[head_node] = other_rev_edges
+        # record nodes
+        nodes.add(int(head_node))
+        nodes.add(int(tail_node))
+        if (cnt % 10000 == 0):
+            print "read " + str(cnt) + " ............"
 
 # get all nodes
-nodes = get_nodes_l(graph)
+#nodes = get_nodes_l(graph)
+nodes = list(nodes)
 num_nodes = len(nodes)
+print len(graph)
+print num_nodes
 # do initialization
 times = [-1] * num_nodes
 leaders = [-1] * num_nodes
 
 # call the SCC method
-scc(graph)
-print "SCCs found are of lenght -> " + str(scc_len)
+scc(graph, graph_rev)
+print "SCCs found are of lenght -> " + str(sorted(scc_len, reverse=True))
