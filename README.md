@@ -34,3 +34,4 @@
 
    scc.py
    a. 1st commit - implemented SCC using DFS on the reverse and original graph
+   b. 2nd commit - SCC with recursive DFS. using two dicts for the graph and reverse graph instead of a list of lists. PROBLEM: maximum recursion depth reached.
