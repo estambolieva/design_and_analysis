@@ -1,76 +1,74 @@
-import sys
-import pdb
-
-sys.setrecursionlimit(2000)
-
-times = []
-time = 0
-s = 0
-explored = []
-leaders = []
-
 scc_len = []
-curr_scc = []
 
 def scc(graph, graph_rev):
-    global s, num_nodes, nodes, explored, curr_scc
+    global num_nodes, nodes, scc_len, time
     # 1.reverse graph
     # 2.run DFS-loop on reversed graph: get graph timings and leaders
-    for i in range(num_nodes, 0, -1):
-        if i not in explored:
-            s = i
-            dfs_rev(graph_rev, i)
+    explored = set()
+    new_nodes = [-1]*num_nodes
+    stack = []
+    for tail_node in range(num_nodes, 0, -1):
+        if tail_node not in explored:
+            stack.append(tail_node)
+            explored.add(tail_node)
+        while stack:
+            this_node = stack[-1]
+            explored.add(this_node)
+            if this_node in graph_rev:
+                head_nodes = graph_rev.get(this_node)
+                # if there is still an unexplored vertex from these head nodes, explore it
+                unexplored_edges_found, unexplored_head_nodes = find_unexplored_edges(head_nodes, explored)
+                if unexplored_edges_found:
+                    # take the firsts unexplored edge and visit its head node
+                    unexplored_vertex = unexplored_head_nodes.pop(0)
+                    stack.append(unexplored_vertex)
+                else:
+                    # reached a deepest point, remember its timing
+                    timed_node = stack.pop()
+                    new_nodes[time-1]= timed_node
+                    time += 1
+            else:
+                timed_node = stack.pop()
+                new_nodes[num_nodes - time]= timed_node
+                time += 1
+
+    print "Passed Step 1"
     # 3.run DFS-loop on normal graph with nodes the running time of each node
-    # e.g. iterate over the nodes in reverse order of their timing
-    # 3.1. update order of nodes according to timing
-    new_node_indices = [-1]*num_nodes
-    for ind in range(num_nodes):
-        curr_node = nodes[ind]
-        new_node_indices[ind] = times[curr_node-1]
-
-    # 3.2 iterate over nodes according to descending timing
-    explored = []
-    for i in range(num_nodes, 0, -1):
-        timing_ind = new_node_indices.index(i)
-        node = nodes[timing_ind]
-        curr_scc = []
+    # e.g. iterate over nodes according to descending timing
+    explored = set()
+    scc_stack = []
+    for i in range(num_nodes-1, 0, -1):
+        node = new_nodes[i]
         if node not in explored:
-            dfs(graph, node)
+            curr_scc = [node]
+            scc_stack.append(node)
+            explored.add(node)
+            while scc_stack:
+                tail_node = scc_stack.pop()
+                if tail_node in graph:
+                    for head_node in graph.get(tail_node):
+                        if head_node not in explored:
+                            explored.add(head_node)
+                            scc_stack.append(head_node)
+                            curr_scc.append(head_node)
             scc_len.append(len(curr_scc))
-            curr_scc = []
+    print "Passed Step 2"
 
-def dfs_rev(graph_rev, i):
-    global s, leaders, time, times
-    explored.append(i)
-    leaders[i-1] = s
-    # for each arc (i, head_node)
-    if i in graph_rev:
-        for head_node in graph_rev.get(i):
-            if head_node not in explored:
-                dfs_rev(graph_rev, head_node)
-    time += 1
-    times[i-1] = time
-
-def dfs(graph, node):
-    global explored, curr_scc
-    explored.append(node)
-    curr_scc.append(node)
-    # for arc (node, head_node)
-    if node in graph:
-        for head_node in graph.get(node):
-            if head_node not in explored:
-                dfs(graph, head_node)
+def find_unexplored_edges(head_nodes, explored):
+    unexplored = []
+    for node in head_nodes:
+        if node not in explored:
+            unexplored.append(node)
+    return (len(unexplored) != 0), unexplored
 
 graph = []
-fname = "C:\\Users\\estam_000\\Downloads\\scc_graph.txt"
-cnt = 0
+fname = "C:\\Users\\estam_000\\Downloads\\scc_graph_dn_again.txt"
 
 nodes = set()
 graph = {}
 graph_rev = {}
 with open(fname) as f:
     for line in f:
-        cnt += 1
         edge_nodes = line.split()
         tail_node = int(edge_nodes[0])
         head_node = int(edge_nodes[1])
@@ -91,19 +89,17 @@ with open(fname) as f:
         # record nodes
         nodes.add(int(head_node))
         nodes.add(int(tail_node))
-        if (cnt % 10000 == 0):
-            print "read " + str(cnt) + " ............"
 
 # get all nodes
-#nodes = get_nodes_l(graph)
 nodes = list(nodes)
 num_nodes = len(nodes)
-print len(graph)
-print num_nodes
+
 # do initialization
+time = 1
 times = [-1] * num_nodes
 leaders = [-1] * num_nodes
 
 # call the SCC method
 scc(graph, graph_rev)
 print "SCCs found are of lenght -> " + str(sorted(scc_len, reverse=True))
+
