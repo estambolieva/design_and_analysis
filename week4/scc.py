@@ -28,8 +28,8 @@ def scc(graph, graph_rev):
                     new_nodes[time-1]= timed_node
                     time += 1
             else:
-                timed_node = stack.pop()
-                new_nodes[num_nodes - time]= timed_node
+                curr_node = stack.pop()
+                new_nodes[time-1] = curr_node
                 time += 1
 
     print "Passed Step 1"
@@ -53,6 +53,7 @@ def scc(graph, graph_rev):
                             curr_scc.append(head_node)
             scc_len.append(len(curr_scc))
     print "Passed Step 2"
+    #print "new nodes " + str(new_nodes)
 
 def find_unexplored_edges(head_nodes, explored):
     unexplored = []
@@ -62,13 +63,15 @@ def find_unexplored_edges(head_nodes, explored):
     return (len(unexplored) != 0), unexplored
 
 graph = []
-fname = "C:\\Users\\estam_000\\Downloads\\scc_graph_dn_again.txt"
+fname = "C:\\Users\\estam_000\\Downloads\\scc_graph.txt"
 
 nodes = set()
 graph = {}
 graph_rev = {}
+cnt = 0
 with open(fname) as f:
     for line in f:
+        cnt += 1
         edge_nodes = line.split()
         tail_node = int(edge_nodes[0])
         head_node = int(edge_nodes[1])
@@ -89,6 +92,8 @@ with open(fname) as f:
         # record nodes
         nodes.add(int(head_node))
         nodes.add(int(tail_node))
+        if cnt % 20000 == 0:
+            print "read " + str(cnt) + " lines ......"
 
 # get all nodes
 nodes = list(nodes)
@@ -101,5 +106,5 @@ leaders = [-1] * num_nodes
 
 # call the SCC method
 scc(graph, graph_rev)
-print "SCCs found are of lenght -> " + str(sorted(scc_len, reverse=True))
+print "SCCs found are of lenght -> " + str(sorted(scc_len, reverse=True)[0:5])
 
