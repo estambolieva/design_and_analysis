@@ -37,3 +37,7 @@
    b. 2nd commit - SCC with recursive DFS. using two dicts for the graph and reverse graph instead of a list of lists. PROBLEM: maximum recursion depth reached.
    c. 3rd commit - iterative scc with a stack. this is NOT the solution for problem 4
    d. 4th commit - iterative scc with a stack. solution to problem 4. fixed a bug in the prev. commit - in the indexing of the new nodes (time-1 vs num_nodes-time)
+
+5. week 5: min_heap.py
+   a. 1st commit - implemented min heap - the insertion and extract-min fuctions.
+   
