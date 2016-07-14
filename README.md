@@ -41,3 +41,5 @@
 5. week 5: min_heap.py
    a. 1st commit - implemented min heap - the insertion and extract-min fuctions.
    
+   dijkstra.py
+   a. 1st commit - implemented dijkstra's shortest path with a heap.

@@ -1,7 +1,7 @@
 # initialize the heap as an empty array
 heap = []
 
-# implement the insert function for MIN heap
+# implement the insert function for MIN heap - 0(nlogn)
 def insert_min(array):
     global heap
     for i in range(len(array)):
@@ -29,6 +29,18 @@ def insert_min(array):
                 else:
                     no_parent = False
 
+# implement the insert function for MIN heap - O(n)
+# see illustrated example of this in WSU's lecture slides - starting slide 31
+# http://www.eecs.wsu.edu/~ananth/CptS223/Lectures/heaps.pdf
+def build_heap(array):
+    global heap
+    # randomly populate the heap, e.g. copy the array into the heap
+    heap = array[:]
+    print heap
+    # perform bubble up from each internal node starting from the leaves to take care of heap order properly
+
+
+
 # implement the extract-min function of the heap
 def extract_min():
     global heap
@@ -44,7 +56,7 @@ def extract_min():
     while not_done:
         first_child_ind = 2*root_ind
         second_child_ind = 2*root_ind + 1
-        if new_root < first_child_ind and new_root < second_child_ind:
+        if new_root <= first_child_ind and new_root <= second_child_ind:
             not_done = False
         else:
             first_child = heap[first_child_ind-1]
@@ -66,7 +78,8 @@ def extract_min():
 # an array with the elements to be inserted in a heap given in an arbitrary order
 array = [13,11,9,4,12,9,4,8,4]
 #array = [13,4,11,8,9,4,4,9,12]
-insert_min(array)
+array = [150,80,40,30,10,70,110,100,20,90,60,50,120,140,130]
+build_heap(array)
 print "heap is " + str(heap)
-extract_min()
-print "new heap with popped root is " + str(heap)
+#extract_min()
+#print "new heap with popped root is " + str(heap)
