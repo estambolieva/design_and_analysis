@@ -43,3 +43,5 @@
    
    dijkstra.py
    a. 1st commit - implemented dijkstra's shortest path with a heap.
+   b. 2nd commit - dijkstra with a heap works on 4 examples, but does not solve problem 5 test data
+   

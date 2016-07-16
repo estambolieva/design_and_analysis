@@ -1,7 +1,6 @@
 def dijkstra(graph, start_node):
     global distances, heap, heap_set, edges
     distances[start_node] = 0
-    cnt = 0
     while heap:
         # popped_vertex == start_node for the first iteration
         popped_vertex = extract_min()
@@ -20,12 +19,11 @@ def dijkstra(graph, start_node):
                 # a. remove it from the heap
                 remove_vertex(head_vertex)
                 # b. calculate the new distance of vertex - min(old_distance, dist[u] + (u,vertex))
-                old_dist = distances.get(vertex)
+                old_dist = distances.get(head_vertex)
                 distances[head_vertex] = \
                     min(old_dist, distances.get(popped_vertex) + edges.get((popped_vertex, head_vertex)))
                 # c. re-insert vertex with its new distance and adjust according the order property
                 reinsert_vertex(head_vertex)
-                cnt += 1
 
 def remove_vertex(vertex):
     global heap, heap_indices
@@ -55,7 +53,7 @@ def reinsert_vertex(vertex):
     heap_indices[vertex] = vert_ind
     # b. bubble up if necessary
     vert_dist = distances.get(vertex)
-    parent_ind = ((vert_ind - 1)/2)
+    parent_ind = (vert_ind/2)
     parent = heap[parent_ind - 1]
     parent_dist = distances.get(parent)
     not_done = (parent_dist > vert_dist)
@@ -70,7 +68,7 @@ def reinsert_vertex(vertex):
         heap_indices[vertex] = parent_ind
         # update not_done
         vertex_ind = parent_ind
-        parent_ind = (vertex_ind-1)/2
+        parent_ind = vertex_ind/2
         # check if the parent index is smaller than the root index
         if parent_ind < 1:
             break
@@ -81,12 +79,12 @@ def reinsert_vertex(vertex):
 
 
 def extract_min():
-    global heap
+    global heap, heap_indices
     # delete the first element
     min_elem = heap.pop(0)
+    heap_indices.pop(min_elem)
     # take last element and put it as root and update heap indices
     new_root = heap.pop()
-    heap_indices.pop(min_elem)
     # take the last elem and make it the new root
     heap.insert(0, new_root)
     heap_indices[new_root] = 1
@@ -126,7 +124,7 @@ def extract_min():
                 heap[first_child_ind -1] = curr_root
                 # update heap indices
                 heap_indices[curr_root] = first_child_ind
-                heap_indices[first_child_ind] = new_root_ind
+                heap_indices[first_child] = new_root_ind
                 # update new root index
                 new_root_ind = first_child_ind
     return min_elem
@@ -137,13 +135,15 @@ nodes = set()
 distances = {}
 heap_indices = {}
 # read graph
-fname = "dijkstra_small2.txt"
+fname = "C:\\Users\\estam_000\\Downloads\\dijkstraData.txt"
 with open(fname) as f:
     for line in f:
-        parts = line.split(" ")
+        parts = line.split("\t")
         vertex = int(parts[0])
         nodes.add(vertex)
         parts.pop(0)
+        # pop the last element of parts, which is ['\n']
+        parts.pop()
         while parts:
             vertex_dist = parts[0].split(",")
             head_vertex = int(vertex_dist[0])
@@ -167,6 +167,18 @@ heap = nodes[:]
 heap_dict = {}
 for node in heap:
     heap_dict[node] = True
+print "starting dijkstra"
 dijkstra(graph, 1)
 
+# if there is not path between 1 and v, the distance between them is 1000000
+for dist in distances:
+    if distances.get(dist) == float('inf'):
+        distances[dist] = 1000000
+
+# report the distances to the following nodes from 1: 7,37,59,82,99,115,133,165,188,197
+reported_distances = []
+nodes_of_question = [7,37,59,82,99,115,133,165,188,197]
+for nodes in nodes_of_question:
+    reported_distances.append(distances.get(node))
 print distances
+print reported_distances
