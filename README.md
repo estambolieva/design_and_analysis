@@ -42,6 +42,7 @@
    a. 1st commit - implemented min heap - the insertion and extract-min fuctions.
    
    dijkstra.py
-   a. 1st commit - implemented dijkstra's shortest path with a heap.
-   b. 2nd commit - dijkstra with a heap works on 4 examples, but does not solve problem 5 test data
-   
+   a. 1st commit - implemented dijkstra's shortest path with a heap. implemented the heap (insert, extract_min and delete_from_middle
+   a.1 for a wrapper class heap implementation over python's heap object, check this solution: https://github.com/ChuntaoLu/Algorithms-Design-and-Analysis/blob/master/week5%20Heap%20and%20Dijkstra's%20shortest%20path/dijkstra.py 
+   b. 2nd commit - dijkstra with a heap working, small bugs fixed from prev commit
+   c. 3rd commit - fixed a small typo in at the very end when printing the shortest paths for 10 selected nodes.

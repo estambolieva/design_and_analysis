@@ -147,6 +147,7 @@ with open(fname) as f:
         while parts:
             vertex_dist = parts[0].split(",")
             head_vertex = int(vertex_dist[0])
+            nodes.add(head_vertex)
             distance = int(vertex_dist[1])
             # update graph
             other_head_nodes = []
@@ -167,7 +168,6 @@ heap = nodes[:]
 heap_dict = {}
 for node in heap:
     heap_dict[node] = True
-print "starting dijkstra"
 dijkstra(graph, 1)
 
 # if there is not path between 1 and v, the distance between them is 1000000
@@ -178,7 +178,6 @@ for dist in distances:
 # report the distances to the following nodes from 1: 7,37,59,82,99,115,133,165,188,197
 reported_distances = []
 nodes_of_question = [7,37,59,82,99,115,133,165,188,197]
-for nodes in nodes_of_question:
+for node in nodes_of_question:
     reported_distances.append(distances.get(node))
-print distances
 print reported_distances
