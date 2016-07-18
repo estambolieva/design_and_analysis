@@ -46,3 +46,6 @@
    a.1 for a wrapper class heap implementation over python's heap object, check this solution: https://github.com/ChuntaoLu/Algorithms-Design-and-Analysis/blob/master/week5%20Heap%20and%20Dijkstra's%20shortest%20path/dijkstra.py 
    b. 2nd commit - dijkstra with a heap working, small bugs fixed from prev commit
    c. 3rd commit - fixed a small typo in at the very end when printing the shortest paths for 10 selected nodes.
+
+   6. week 6: two_sum.py
+      a. 1st commit - implemented two binary searches in a sorted array. 1st: find the index of the first element in the array that is smaller or equal to a given number. 2nd - find the index of the last element in the array that is smaller or equal to a given number
