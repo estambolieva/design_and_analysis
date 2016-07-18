@@ -9,27 +9,31 @@
 def two_sum(array, lower_bound, upper_bound):
     new_lower_bound_ind = 0
     new_upper_bound_ind = 0
-    pair_set = ()
+    explored = set()
+    pair_set = set()
     # sort array
     quickSort(array, 0, len(array))
     print array
-    arr_set = set(array)
-    # for each unique array entry
+    # for each unique array entries
     cnt = 0
-    for entry in arr_set:
-        # find the new bounds
-        new_lower_bound = lower_bound - entry
-        new_upper_bound = upper_bound - entry
-        l = 0
-        r = len(array)
-        print "ENTRY is " + str(entry)
-        # binary search for lower_bound for each entry
-        new_lower_bound_ind = binary_lower_search(array, l, r, new_lower_bound)
-        # binary search for higher_bound for each entry
-        new_upper_bound_ind = binary_upper_search(array, l, r, new_upper_bound)
-        cnt += 1
-        #if cnt == 2:
-        #    break
+    for i in range(len(array)):
+        entry = array[i]
+        if entry not in explored:
+            # find the new bounds
+            new_lower_bound = lower_bound - entry
+            new_upper_bound = upper_bound - entry
+            l = 0
+            r = len(array)
+            # binary search for lower_bound for each entry
+            new_lower_bound_ind = binary_lower_search(array, l, r, new_lower_bound)
+            # binary search for higher_bound for each entry
+            new_upper_bound_ind = binary_upper_search(array, l, r, new_upper_bound)
+            # find all ys for this particular x, entry ==x
+            for j in range(new_lower_bound_ind, new_upper_bound_ind+1):
+                y = array[j]
+                if i != j:
+                    pair_set.add((entry, y))
+            explored.add(entry)
     return len(pair_set)
 
 # find the first element which is smaller than entry in sorted array
@@ -93,11 +97,11 @@ def quickSort(a,start, end):
         quickSort(a, i, end)
 
 unsorted_array = []
-fname = "C:\\Users\\estam_000\\Downloads\\2sum.txt"
 fname = "C:\\Users\\estam_000\\Downloads\\2sum_small_arr.txt"
 with open(fname) as f:
     for line in f:
         number = int(line)
         unsorted_array.append(number)
-print unsorted_array
+
 count = two_sum(unsorted_array, 3, 10)
+print "count is " + str(count)
