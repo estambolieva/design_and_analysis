@@ -50,3 +50,6 @@
 6. week 6: two_sum.py
    a. 1st commit - implemented two binary searches in a sorted array. 1st: find the index of the first element in the array that is smaller or equal to a given number. 2nd - find the index of the last element in the array that is smaller or equal to a given number
    b. 2nd commit - finds all distinct pairs x,y, where x + y = t, t is in the interval [N,M] inclusively
+
+   median_maintenance.py - used this for hints: http://waytocrack.com/blog/median-in-a-stream-of-integers/
+   a. 1st commit - implemented a min heap in a class
