@@ -53,3 +53,4 @@
 
    median_maintenance.py - used this for hints: http://waytocrack.com/blog/median-in-a-stream-of-integers/
    a. 1st commit - implemented a min heap in a class
+   b. 2nd commit - implemented max heap class, in addition to the min heap class
