@@ -1,4 +1,4 @@
-"# design_and_analysis of alogirthms - Coursera Stanford course"
+"Algorithms: Design and Analysis - A Coursera Stanford course"
 
 1. week 1 - 2 commits
    a. 1st commit - mergeSort implemented
@@ -54,3 +54,6 @@
    median_maintenance.py - used this for hints: http://waytocrack.com/blog/median-in-a-stream-of-integers/
    a. 1st commit - implemented a min heap in a class
    b. 2nd commit - implemented max heap class, in addition to the min heap class
+
+7. week 7: mst.py
+   a. 1st commit - prim's min spanning tree algorithm implemented with a heap populated with the graph's vertices. Added two test cases in the examples folder
